@@ -779,29 +779,38 @@ int main(int argc, char *argv[]) {
     tree* a;
     tree* b;
 
-    char test1[MAX_STR_SIZE] = "not(B) OR C";
-    char test2[MAX_STR_SIZE] = "not(C) OR B";
+    // char test1[MAX_STR_SIZE] = "not(B) OR C";
+    // char test2[MAX_STR_SIZE] = "not(C) OR B";
     // char test[MAX_STR_SIZE] = "NOT(A AND ( B OR C ))";
     // char test[MAX_STR_SIZE] = "NOT(NOT(var1) OR (var2 AND var3))";
     // char test[MAX_STR_SIZE] = "var1 AND var2 AND var3";
     // char test[MAX_STR_SIZE] = "(((A XOR B) AND (NOT C)) IFF (true IMPLIES (A OR false)))";
 
+
+    char test1[MAX_STR_SIZE] = "A XOR B";
+    char test2[MAX_STR_SIZE] = "NOT(A AND B) AND (A OR B)";
+
     a = parse(test1);
-    b = parse(test2);
     print_tree(a->root, 0);
-    print_vars_table(a);
-    printf("\nSetting variable values...\n\n");
-    // set_vars_values(a, "A", TRUE);
-    set_vars_values(a, "B", TRUE);
-    set_vars_values(a, "C", FALSE);
-    print_vars_table(a);
-    print_tree(a->root, 0);
-
-    accvalue res = compute(a);
-    printf("\nRisultato: %s\n", res ? "true": "false");
-
     accvalue* restabella1 = gen_tabella_verita(a);
+
+    printf("\n");
+
+    b = parse(test2);
+    print_tree(b->root, 0);
     accvalue* restabella2 = gen_tabella_verita(b);
+    printf("\n");
+
+    // print_vars_table(a);
+    // printf("\nSetting variable values...\n\n");
+    // // set_vars_values(a, "A", TRUE);
+    // set_vars_values(a, "B", TRUE);
+    // set_vars_values(a, "C", FALSE);
+    // print_vars_table(a);
+    // print_tree(a->root, 0);
+
+    // accvalue res = compute(a);
+    // printf("\nRisultato: %s\n", res ? "true": "false");
 
     if (compare_tabella_verita(restabella1, restabella2, (int) pow(2, a->vars_count))) {
         printf("Le due espressioni sono equivalenti.\n");
